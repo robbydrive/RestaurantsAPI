@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <header id="main_head">
+    <div class="header_wrapper">
+        <a href="{% url 'management:index' %}">
+            <p class="logo_text">Management site</p>
+        </a>
+        <nav>
+            <ul>{% if user.is_authenticated %}
+                <li class="nav_item"><a class="nav_link" href="{% url 'management:categories' %}">Categories</a></li>
+                <li class="nav_item"><a class="nav_link" href="{% url 'management:orders' %}">Orders</a></li>
+                <li class="nav_item"><a class="nav_link" href="{% url 'management:logout' %}">Logout</a></li>
+                {% else %}
+                <li class="nav_item">
+                    <a class="nav_link" href="{% url 'management:login' %}?next={% url 'management:index' %}">
+                        Login
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    </header>
+
+    <main class="wrapper main_wrapper">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

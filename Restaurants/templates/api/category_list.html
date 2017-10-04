@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Categories list
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lists.css' %}">
+{% endblock %}
+{% block content %}
+    <h2>Categories list</h2>
+    <table class="inner_table">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Parent category
+        </th>
+        <th></th>
+        <th>Categories</th>
+        <th>Dishes</th>
+    </thead>
+    <tbody>
+    {% for category in object_list %}
+        <tr>
+            <td class="info">
+                {{ category.id }}
+            </td>
+            <td class="info">
+                {{ category.name }}
+            </td>
+            <td class="info">
+                {% if parent_category %}
+                    <a href="{% url 'management:categories' parent_id=category.parent.id %}">
+                        {{ parent_category.name }}
+                    </a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td class="action_btn">
+                <a href="{% url 'management:edit_category' pk=category.id %}">Edit</a>
+            </td>
+            <td class="action_btn">
+                <a href="{% url 'management:categories' parent_id=category.id %}">
+                    View
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'management:dishes' category_id=category.id %}">
+                    View
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="action_btn">
+            {% if parent_category %}
+            <a href="{% url 'management:add_category' parent_id=parent_category.id %}">
+            {% else %}
+            <a href="{% url 'management:add_category' %}">
+            {% endif %}
+                Add
+            </a>
+        </td>
+        <td class="action_btn">
+            {% if parent_category %}
+            <a href="{% url 'management:add_dish' category_id=parent_category.id %}">
+            {% else %}
+            <a href="{% url 'management:add_dish' %}">
+            {% endif %}
+                Add
+            </a>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}

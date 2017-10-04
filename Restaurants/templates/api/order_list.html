@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Orders list
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lists.css' %}">
+{% endblock %}
+{% block content %}
+    <h2>Orders list</h2>
+    <table class="inner_table">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Restaurant
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Operator
+        </th>
+        <th></th>
+    </thead>
+    {% for order in object_list %}
+        <tr>
+            <td class="info">
+                {{ order.id }}
+            </td>
+            <td class="info">
+                {{ order.restaurant.name }}
+            </td>
+            <td class="info">
+                {{ order.status }}
+            </td>
+            <td class="info">
+                {{ order.operator.first_name }} {{ order.operator.last_name }}
+            </td>
+            <td class="action_btn">
+                <a href="{% url 'management:edit_order' pk=order.id %}">Edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Dishes list
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lists.css' %}">
+{% endblock %}
+{% block content %}
+    <h2>Dishes list</h2>
+    <table class="inner_table">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Category
+        </th>
+        <th></th>
+    </thead>
+    {% for dish in object_list %}
+        <tr>
+            <td class="info">
+                {{ dish.id }}
+            </td>
+            <td class="info">
+                {{ dish.name }}
+            </td>
+            <td>
+                {{ dish.price }}
+            </td>
+            <td class="info">
+                {% if parent_category %}
+                    <a href="{% url 'management:categories' parent_id=dish.category.id %}">
+                        {{ dish.category.name }}
+                    </a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td class="action_btn">
+                <a href="{% url 'management:edit_dish' pk=dish.id %}">Edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

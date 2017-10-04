@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Edit order
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+{% block content %}
+    <form action="{% url 'management:edit_order' pk=object.id %}" method="post" class="form main_form">
+        {% csrf_token %}
+        <div class="form_title">
+            Editing order
+        </div>
+        <div class="form_input">
+            {% for field in form.visible_fields %}
+            <h3>{{ field.label }}</h3>
+            {{ field }} {{ field.errors | join:"; " }}
+        {% endfor %}
+        </div>
+        <br>
+        <button class="form_button" type="submit">Сохранить</button>
+        <br>
+    </form>
+    <br>
+{% endblock %}

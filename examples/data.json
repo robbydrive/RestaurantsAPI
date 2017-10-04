@@ -1,0 +1,15 @@
+{
+	"type": "orders",
+	"restaurant_id": 1,
+	"dishes":
+	[
+		{
+			"id": 1,
+			"price": 3500
+		},
+		{
+			"id": 2,
+			"price": 3000
+		}
+	]
+}

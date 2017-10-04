@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if is_creating %}
+    Create new dish
+    {% else %}
+    Edit the dish
+    {% endif %}
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+{% block content %}
+    {% if is_creating and form.initial.category %}
+    <form action="{% url  'management:add_dish' category_id=form.initial.category.id %}" method="post" class="form main_form">
+    {% elif is_creating %}
+    <form action="{% url  'management:add_dish' %}" method="post" class="form main_form">
+    {% else %}
+    <form action="{% url  'management:edit_dish' pk=object.id %}" method="post" class="form main_form">
+    {% endif %}
+        {% csrf_token %}
+        <div class="form_title">
+            Editing dish
+        </div>
+        <div class="form_input">
+            {% for field in form.visible_fields %}
+            <h3>{{ field.label }}</h3>
+            {{ field }} {{ field.errors | join:"; " }}
+        {% endfor %}
+        </div>
+        <br>
+        <button class="form_button" type="submit">Сохранить</button>
+        <br>
+    </form>
+    <br>
+{% endblock %}
