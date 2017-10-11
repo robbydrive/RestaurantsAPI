@@ -20,4 +20,4 @@ Response:
 > {"data": [{"id": 1, "name": "Category 1", "type": "categories", "children": []}], "message": "Success"}
 
 ### Management tool
-Web application for restaurants administrators allowing to change presented menu and orders status. Availabe at `/management/`.
+Web application for restaurants administrators allowing to change presented menu and orders status. Available at `/management/`.
