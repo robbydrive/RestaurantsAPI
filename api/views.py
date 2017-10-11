@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -29,7 +30,7 @@ class CategoriesListView(BaseListView, JSONResponseMixin):
     model = Category
 
     def get_data(self, context):
-        lst = STANDARD_RESPONSE.copy()
+        lst = deepcopy(STANDARD_RESPONSE)
         # Checking perm here not to dive into
         # how to return JsonResponse from PermissionDenied handler
         if not self.request.user.has_perm('api.view_categories'):
@@ -46,7 +47,7 @@ class CategoriesListView(BaseListView, JSONResponseMixin):
 @method_decorator(csrf_exempt, name='dispatch')
 class OrdersCreateView(View):
     def post(self, request, *args, **kwargs):
-        data = STANDARD_RESPONSE.copy()
+        data = deepcopy(STANDARD_RESPONSE)
         if 'json' not in self.request.content_type.lower():
             data.update({'message': 'Wrong content type: should be like \'application/json\''})
             return JsonResponse(data, status=415)

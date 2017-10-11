@@ -17,11 +17,15 @@ class Category(models.Model, APIMixin):
     name = models.CharField(max_length=100, verbose_name="Category name")
 
     def get_dict(self):
-        queryset = Category.objects.filter(parent__pk=self.pk)
+        subs_queryset = Category.objects.filter(parent__pk=self.pk)
+        dishes_queryset = Dish.objects.filter(category=self)
         d = Category.objects.filter(pk=self.pk).values('id', 'name')[0]
+        d['type'] = 'categories'
         d['children'] = []
-        for sub_category in queryset:
+        for sub_category in subs_queryset:
             d['children'].append(sub_category.get_dict())
+        for dish in dishes_queryset:
+            d['children'].append(dish.get_dict())
         return d
 
     class Meta:
@@ -38,7 +42,9 @@ class Dish(models.Model, APIMixin):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
     def get_dict(self):
-        return Dish.objects.filter(pk=self.pk).values('id', 'name', 'price')
+        d = Dish.objects.filter(pk=self.pk).values('id', 'name', 'price')[0]
+        d['type'] = 'dishes'
+        return d
 
 
 class Restaurant(models.Model):
